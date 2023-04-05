@@ -7,7 +7,7 @@ function App() {
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
         <p>
-          Esta pagina e um exercio do programa IT Talent DevOps Básico.
+          Esta pagina e um exercio do programa IT Talent DevOps Básico
         </p>
         <a
           className="App-link"
