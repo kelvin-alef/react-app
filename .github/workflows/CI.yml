@@ -56,4 +56,5 @@ jobs:
         run: |
           ls -lhtr ~/.ssh
           cat ~/.ssh/config
+          ssh gitlab@34.28.226.246 'sudo systemctl stop react-app'
           ssh google-cloud 'sudo systemctl stop react-app'
