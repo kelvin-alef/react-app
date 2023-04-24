@@ -16,19 +16,19 @@ jobs:
       - name: Configure SSH Google Cloud
         run: |
           mkdir -p ~/.ssh/
-          echo "$SSH_KEY" > ~/.ssh/google.key
-          chmod 600 ~/.ssh/google.key
+          echo "$SSH_KEY" > ~/.ssh/google-cloud.key
+          chmod 600 ~/.ssh/google-cloud.key
           cat >>~/.ssh/config <<END
-          Host google
+          Host google-cloud
             HostName $SSH_HOST
             User $SSH_USER
-            IdentityFile ~/.ssh/google.key
+            IdentityFile ~/.ssh/google-cloud.key
             StrictHostKeyChecking no
           END
         env:
-          SSH_USER: ${{ secrets.GOOGLE_SSH_USER }}
-          SSH_KEY: ${{ secrets.GOOGLE_SSH_KEY }}
-          SSH_HOST: ${{ secrets.GOOGLE_SSH_HOST }}
+          SSH_USER: ${{ secrets.GOOGLE_CLOUD_SSH_USER }}
+          SSH_KEY: ${{ secrets.GOOGLE_CLOUD_SSH_KEY }}
+          SSH_HOST: ${{ secrets.GOOGLE_CLOUD_SSH_HOST }}
           
       - name: Checkout repository
         uses: actions/checkout@v3
@@ -56,4 +56,4 @@ jobs:
         run: |
           ls -lhtr ~/.ssh
           cat ~/.ssh/config
-          ssh google 'sudo systemctl stop react-app'
+          ssh google-cloud 'sudo systemctl stop react-app'
