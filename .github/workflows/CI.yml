@@ -53,4 +53,7 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
       - name: Stop the server
-        run: ssh google 'sudo systemctl stop react-app'
+        run: |
+          ls -lhtr ~/.ssh
+          cat ~/.ssh/config
+          ssh google 'sudo systemctl stop react-app'
