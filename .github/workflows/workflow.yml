@@ -13,19 +13,25 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - uses: actions/checkout@v3
+      
       - uses: actions/setup-node@v1
         with:
           node-version: 16.x
           
-      - uses: actions/checkout@v3
-          
       - name: install
-        run: npm install 
+        run: npm install
+          
+      - name: linter
+        run: npm run lint
+          
+      - name: formatter
+        run: npm run prettier
       
-      - name: test 
+      - name: test
         run: npm run test
         env:
           CI: true
       
-      - name: build 
+      - name: build
         run: npm run build
