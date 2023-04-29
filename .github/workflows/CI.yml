@@ -1,5 +1,5 @@
 name: CI
-  on:
+on:
     push:
       branches:
         - main
@@ -8,7 +8,7 @@ name: CI
         - main
       
         
-  jobs:
+jobs:
     CI:
       runs-on: ubuntu-latest
       
