@@ -10,41 +10,54 @@ jobs:
       runs-on: ubuntu-latest
       
       steps:
-        - name: Configure SSH Google Cloud
-          run: |
-            mkdir -p ~/.ssh/
-            echo "$SSH_KEY" > ~/.ssh/google-cloud.key
-            chmod 600 ~/.ssh/google-cloud.key
-            cat >>~/.ssh/config <<END
+        - name: Configure SSH Google Cloud #conexão GCP ao Github
+          run: | #pipe para execução de varios scripts
+            mkdir -p ~/.ssh/ #cria pasta
+            echo "$SSH_KEY" > ~/.ssh/google-cloud.key #escreve dentro da pasta um arquivo ssh
+            chmod 600 ~/.ssh/google-cloud.key #muda a permissão da chave ssh
+            cat >>~/.ssh/config <<END #escreve dentro desse arquivo config o texto abaixo
             Host google-cloud
               HostName $SSH_HOST
               User $SSH_USER
               IdentityFile ~/.ssh/google-cloud.key
               StrictHostKeyChecking no
             END
-          env:
+          env: #variaveis de ambiente dentro do github ( secrets )
             SSH_USER: ${{ secrets.GOOGLE_CLOUD_SSH_USER }}
             SSH_KEY: ${{ secrets.GOOGLE_CLOUD_SSH_KEY }}
             SSH_HOST: ${{ secrets.GOOGLE_CLOUD_SSH_HOST }}
             
-        - name: Checkout
+        - name: Checkout #chegagem de codigo
           uses: actions/checkout@v3.5.2
 
-        - name: Setup Node.js V16.x
+        - name: Setup Node.js V16.x #install node
           uses: actions/setup-node@v2.5.2
           with:
             node-version: 16.x
 
-        - name: Install Dependencies
+        - name: Install Dependencies #instala npm 
           run: npm install
           
-        - name: Run the Tests
+        - name: Run the Tests #teste de coverage 
           run: npm run test -- --coverage
           env:
             CI: true
             
-        - name: SonarCloud Scan
+        - name: SonarCloud Scan #teste usando SonarCloud
           uses: SonarSource/sonarcloud-github-action@master
           env:
                GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
                SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        
+        - name: Build Application #criar o build da aplicação 
+          run: npm run build
+          
+        - name: Deploy Application #faz o deploy do arquivo react-app
+          run: |
+             ssh google-cloud 'sudo systemctl stop react-app' #para o serviço que está no rodando (react-app)
+             ssh google-cloud 'sudo rm -rf /app/react-app' #remove a pasta base (pasta do react-app
+             scp -r build google-cloud:/home/github/react-app #o scp envia arquivos para um servidor remoto ( -r recursivo para entrar em todas as pastas e enviar tudo)
+             ssh google-cloud 'sudo mv /home/github/react-app /app/react-app' #depois de enviar os arquivos eu preciso mover para pasta do usuario que eu criei eu com a permissão sudo moverei para a pasta do diretorio final ( react-app )
+             ssh google-cloud 'sudo systemctl start react-app' #reinicia o serviço e faz a aplicação voltar a funcionar.
+        
+            
