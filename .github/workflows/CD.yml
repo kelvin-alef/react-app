@@ -53,11 +53,16 @@ jobs:
           run: npm run build
           
         - name: Deploy Application #faz o deploy do arquivo react-app
-          run: |
-             ssh google-cloud 'sudo systemctl stop react-app' #para o serviço que está no rodando (react-app)
-             ssh google-cloud 'sudo rm -rf /app/react-app' #remove a pasta base (pasta do react-app
-             scp -r build google-cloud:/home/github/react-app #o scp envia arquivos para um servidor remoto ( -r recursivo para entrar em todas as pastas e enviar tudo)
-             ssh google-cloud 'sudo mv /home/github/react-app /app/react-app' #depois de enviar os arquivos eu preciso mover para pasta do usuario que eu criei eu com a permissão sudo moverei para a pasta do diretorio final ( react-app )
-             ssh google-cloud 'sudo systemctl start react-app' #reinicia o serviço e faz a aplicação voltar a funcionar.
+             #ssh google-cloud 'sudo systemctl stop react-app' #para o serviço que está no rodando (react-app)
+             #ssh google-cloud 'sudo rm -rf /app/react-app' #remove a pasta base (pasta do react-app
+             #scp -r build google-cloud:/home/github/react-app #o scp envia arquivos para um servidor remoto ( -r recursivo para entrar em todas as pastas e enviar tudo)
+             #ssh google-cloud 'sudo mv /home/github/react-app /app/react-app' #depois de enviar os arquivos eu preciso mover para pasta do usuario que eu criei eu com a permissão sudo moverei para a pasta do diretorio final ( react-app )
+             #ssh google-cloud 'sudo systemctl start react-app' #reinicia o serviço e faz a aplicação voltar a funcionar.
+          run: | #pipe para execução de varios scripts
+             ssh google-cloud 'sudo systemctl stop react-app'
+             ssh google-cloud 'sudo rm -rf /app/react-app'
+             scp -r build google-cloud:/home/github/react-app
+             ssh google-cloud 'sudo mv /home/github/react-app /app/react-app'
+             ssh google-cloud 'sudo systemctl start react-app'
         
             
