@@ -3,9 +3,6 @@ name: CI
 
 # Aciona o fluxo quando:
 on:
-  # Houver um push
-  push:
-    branches: [ "main" ]
   # Houver um pull
   pull_request:
     branches: [ "main" ]
