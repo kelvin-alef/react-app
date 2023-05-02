@@ -59,7 +59,7 @@ jobs:
              #ssh google-cloud 'sudo mv /home/github/react-app /app/react-app' #depois de enviar os arquivos eu preciso mover para pasta do usuario que eu criei eu com a permissão sudo moverei para a pasta do diretorio final ( react-app )
              #ssh google-cloud 'sudo systemctl start react-app' #reinicia o serviço e faz a aplicação voltar a funcionar.
           run: | #pipe para execução de varios scripts
-             ssh google-cloud "sudo systemctl stop react-app"
+             ssh google-cloud 'sudo systemctl stop react-app'
              ssh google-cloud 'sudo rm -rf /app/react-app'
              scp -r build google-cloud:/home/github/react-app
              ssh google-cloud 'sudo mv /home/github/react-app /app/react-app'
