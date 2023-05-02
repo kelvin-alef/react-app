@@ -24,7 +24,7 @@ jobs:
             END
           env: 
             CLOUD_USER: ${{ secrets.GOOGLE_CLOUD_USER }}
-            CLOUD_KEY: ${{ secrets.GOOGLE_CLOUD_KEY }}
+            CLOUD_KEY: ${{ secrets.GOOGLE_CLOUD_PRIVATE_KEY }}
             CLOUD_HOST: ${{ secrets.GOOGLE_CLOUD_HOST }}
             
         - name: Checkout #chegagem de codigo
