@@ -12,13 +12,13 @@ jobs:
       steps:
         - name: Configure SSH Google Cloud #conexão GCP ao Github
           run: |
-            mkdir -p ~/.ssh/ #cria pasta
+            mkdir -p ~/.ssh/
             echo "$SSH_KEY" > ~/.ssh/google-cloud.key 
             chmod 600 ~/.ssh/google-cloud.key 
             cat >>~/.ssh/config <<END
             Host google-cloud
-              hostname $SSH_HOST
-              user $SSH_USER
+              HostName $SSH_HOST
+              User $SSH_USER
               IdentityFile ~/.ssh/google-cloud.key
               StrictHostKeyChecking no
             END
