@@ -23,9 +23,9 @@ jobs:
               StrictHostKeyChecking no
             END
           env: 
-            SSH_USER: ${{ secrets.GOOGLE_CLOUD_USER }}
-            SSH_KEY: ${{ secrets.GOOGLE_CLOUD_KEY }}
-            SSH_HOST: ${{ secrets.GOOGLE_CLOUD_HOST }}
+            CLOUD_USER: ${{ secrets.GOOGLE_CLOUD_USER }}
+            CLOUD_KEY: ${{ secrets.GOOGLE_CLOUD_KEY }}
+            CLOUD_HOST: ${{ secrets.GOOGLE_CLOUD_HOST }}
             
         - name: Checkout #chegagem de codigo
           uses: actions/checkout@v3.5.2
