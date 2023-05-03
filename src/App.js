@@ -7,7 +7,7 @@ function App() {
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
         <p>
-          DevOps Básico IT Talent - Mudanças aula 26-04-2023
+          DevOps Básico IT Talent - My Own Changes
         </p>
         <a
           className="App-link"
@@ -15,7 +15,7 @@ function App() {
           target="_blank"
           rel="noopener noreferrer"
         >
-          Learn DevOps
+          Learn DevOps - CI/CD
         </a>
       </header>
     </div>
