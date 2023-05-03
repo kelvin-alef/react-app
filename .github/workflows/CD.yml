@@ -1,0 +1,61 @@
+name: CD
+on:
+   push:
+      branches:
+        - main
+   workflow_dispatch:   
+        
+jobs:
+    CD:
+      runs-on: ubuntu-latest
+      
+      steps:
+        - name: Configure SSH Google Cloud #conexão GCP ao Github
+          run: |
+            mkdir -p ~/.ssh/
+            echo "$CLOUD_KEY" > ~/.ssh/google-cloud.key 
+            chmod 600 ~/.ssh/google-cloud.key 
+            cat >>~/.ssh/config <<END
+            Host google-cloud
+              HostName $CLOUD_HOST
+              User $CLOUD_USER
+              IdentityFile ~/.ssh/google-cloud.key
+              StrictHostKeyChecking no
+            END
+          env: 
+            CLOUD_USER: ${{ secrets.GOOGLE_CLOUD_USER }}
+            CLOUD_KEY: ${{ secrets.GOOGLE_CLOUD_PRIVATE_KEY }}
+            CLOUD_HOST: ${{ secrets.GOOGLE_CLOUD_HOST }}
+            
+        - name: Checkout #chegagem de codigo
+          uses: actions/checkout@v3.5.2
+
+        - name: Setup Node.js V16.x #install node
+          uses: actions/setup-node@v2.5.2
+          with:
+            node-version: 16.x
+
+        - name: Install Dependencies  
+          run: npm install
+          
+        - name: Run the Tests 
+          run: npm run test -- --coverage
+          env:
+            CI: true
+            
+        - name: SonarCloud Scan 
+          uses: SonarSource/sonarcloud-github-action@master
+          env:
+               GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
+               SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        
+        - name: Build Application 
+          run: npm run build
+          
+        - name: Deploy Application 
+          run: |
+             ssh google-cloud 'sudo systemctl stop react-app'
+             ssh google-cloud 'sudo rm -rf /app/react-app'
+             scp -r build google-cloud:/home/github/react-app
+             ssh google-cloud 'sudo mv /home/github/react-app /app/react-app'
+             ssh google-cloud 'sudo systemctl start react-app'
