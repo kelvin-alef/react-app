@@ -17,7 +17,7 @@ jobs:
     # Passos do fluxo de trabalho
     steps:
     
-    - name: Configuração SSH Google Cloud
+      - name: Configuração SSH Google Cloud
         run: |
           mkdir -p ~/.ssh/
           echo "$SSH_KEY" > ~/.ssh/google-cloud.key
