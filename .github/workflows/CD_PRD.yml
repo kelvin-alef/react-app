@@ -1,12 +1,43 @@
-name: CD
+name: CI
 on:
-   pull_request:
+    pull_request:
       branches:
-        - main  
+        - main
+      
         
 jobs:
+    CI_PRD:
+      runs-on: ubuntu-latest
+      environment:
+         name: PRD
+      
+      steps:
+        - name: Checkout
+          uses: actions/checkout@v3.5.2
+
+        - name: Setup Node.js V16.x
+          uses: actions/setup-node@v2.5.2
+          with:
+            node-version: 16.x
+
+        - name: Install Dependencies
+          run: npm install
+          
+        - name: Run the Tests
+          run: npm run test -- --coverage
+          env:
+            CI: true
+            
+        - name: SonarCloud Scan
+          uses: SonarSource/sonarcloud-github-action@master
+          env:
+               GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
+               SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
     CD:
       runs-on: ubuntu-latest
+      environment:
+         name: PRD
+      needs: CI_PRD
       
       steps:
         - name: Configure SSH Google Cloud #conexão GCP ao Github
