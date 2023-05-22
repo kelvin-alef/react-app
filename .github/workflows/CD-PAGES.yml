@@ -1,4 +1,4 @@
-name: CD-PAGES
+name: CD-PAGES-HACKATHON
 
 on:
   push:
