@@ -34,21 +34,21 @@ jobs:
       - name: Configure SSH Azure
         run: |
           mkdir -p ~/.ssh/
-          echo "$SSH_KEY" > ~/.ssh/azure.key
-          chmod 600 ~/.ssh/azure.key
+          echo "$SSH_KEY" > ~/.ssh/remote.key
+          chmod 600 ~/.ssh/remote.key
           cat >>~/.ssh/config <<END
-          Host azure
+          Host remote
             HostName $SSH_HOST
             User $SSH_USER
             IdentityFile ~/.ssh/azure.key
             StrictHostKeyChecking no
           END
         env:
-          SSH_USER: ${{ secrets.GOOGLE_CLOUD_SSH_USER }}
-          SSH_HOST: ${{ secrets.GOOGLE_CLOUD_SSH_HOST }}
-          SSH_KEY: ${{ secrets.GOOGLE_CLOUD_SSH_KEY }}
+          SSH_HOST: ${{ secrets.SSH_HOST }}
+          SSH_USER: ${{ secrets.SSH_USER }}
+          SSH_KEY: ${{ secrets.SSH_KEY }}
 
       - name: Deploy The Application
         run: |
-          ssh azure 'sudo rm -rf /app/react-app'
-          scp build azure:/app/react-app
+          ssh remote 'sudo rm -rf /app/react-app'
+          scp build remote:/app/react-app
