@@ -31,7 +31,7 @@ jobs:
       - name: Build the application
         run: npm run build
     
-      - name: Configure SSH Azure
+      - name: Configure SSH
         run: |
           mkdir -p ~/.ssh/
           echo "$SSH_KEY" > ~/.ssh/remote.key
@@ -40,7 +40,7 @@ jobs:
           Host remote
             HostName $SSH_HOST
             User $SSH_USER
-            IdentityFile ~/.ssh/azure.key
+            IdentityFile ~/.ssh/remote.key
             StrictHostKeyChecking no
           END
         env:
