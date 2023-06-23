@@ -51,4 +51,4 @@ jobs:
       - name: Deploy The Application
         run: |
           ssh remote 'sudo rm -rf /app/react-app'
-          scp build remote:/app/react-app
+          scp -r build remote:/app/react-app
