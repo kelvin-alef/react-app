@@ -31,24 +31,11 @@ jobs:
       - name: Build the application
         run: npm run build
     
-      - name: Configure SSH
-        run: |
-          mkdir -p ~/.ssh/
-          echo "$SSH_KEY" > ~/.ssh/remote.key
-          chmod 600 ~/.ssh/remote.key
-          cat >>~/.ssh/config <<END
-          Host remote
-            HostName $SSH_HOST
-            User $SSH_USER
-            IdentityFile ~/.ssh/remote.key
-            StrictHostKeyChecking no
-          END
+      - name: Deploy Docker
         env:
-          SSH_HOST: ${{ secrets.SSH_HOST }}
-          SSH_USER: ${{ secrets.SSH_USER }}
-          SSH_KEY: ${{ secrets.SSH_KEY }}
-
-      - name: Deploy The Application
+          DOCKER_USER: ${{ secrets.DOCKER_USER }}
+          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
         run: |
-          ssh remote 'sudo rm -rf /app/react-app'
-          scp -r build remote:/app/react-app
+          docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
+          docker build . -t kevinalef/react-app
+          docker push kevinalef/react-app
