@@ -1,0 +1,54 @@
+name: CD
+
+on:
+  push:
+    branches: [ "main" ]
+
+  workflow_dispatch:
+  
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+  
+jobs:
+  CD:
+    runs-on: ubuntu-latest
+    
+    steps:
+        
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        
+      - name: Set up Node.js 16.x
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16.x
+          
+      - name: Install dependencies
+        run: npm install
+          
+      - name: Build the application
+        run: npm run build
+    
+      - name: Configure SSH Azure
+        run: |
+          mkdir -p ~/.ssh/
+          echo "$SSH_KEY" > ~/.ssh/azure.key
+          chmod 600 ~/.ssh/azure.key
+          cat >>~/.ssh/config <<END
+          Host azure
+            HostName $SSH_HOST
+            User $SSH_USER
+            IdentityFile ~/.ssh/azure.key
+            StrictHostKeyChecking no
+          END
+        env:
+          SSH_USER: ${{ secrets.GOOGLE_CLOUD_SSH_USER }}
+          SSH_HOST: ${{ secrets.GOOGLE_CLOUD_SSH_HOST }}
+          SSH_KEY: ${{ secrets.GOOGLE_CLOUD_SSH_KEY }}
+
+      - name: Deploy The Application
+        run: |
+          ssh azure 'sudo rm -rf /app/react-app'
+          scp build azure:/app/react-app
