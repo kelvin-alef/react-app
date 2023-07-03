@@ -23,10 +23,4 @@ function App() {
   );
 }
 
-componentDidMount() {
-  const rootSpan = tracer.startSpan('rootSpan');
-  tracer.inject(rootSpan, 'TEXT_MAP', {});
-  rootSpan.finish();
-}
-
 export default App;
