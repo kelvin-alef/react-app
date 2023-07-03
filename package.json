@@ -13,7 +13,8 @@
     "web-vitals": "^2.1.4",
     "jaeger-client": "^3.19.0",
     "opentracing": "^0.14.7",
-    "axios": "^1.4.0"
+    "axios": "^1.4.0",
+    "os-browserify": "^0.3.0"
   },
   "scripts": {
     "start": "react-scripts start",
