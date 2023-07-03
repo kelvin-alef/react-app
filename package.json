@@ -12,16 +12,13 @@
     "react-scripts": "5.0.1",
     "web-vitals": "^2.1.4",
     "jaeger-client": "^3.19.0",
-    "os-browserify": "^0.3.0"
+    "opentracing": "^0.14.7"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
-  },
-  "resolutions": {
-    "os": "os-browserify"
   },
   "eslintConfig": {
     "extends": [
