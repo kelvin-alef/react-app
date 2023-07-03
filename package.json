@@ -11,7 +11,8 @@
     "react-dom": "^18.2.0",
     "react-scripts": "5.0.1",
     "web-vitals": "^2.1.4",
-    "jaeger-client": "^3.19.0"
+    "jaeger-client": "^3.19.0",
+    "os-browserify": "^0.3.0"
   },
   "scripts": {
     "start": "react-scripts start",
