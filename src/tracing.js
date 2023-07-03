@@ -1,6 +1,6 @@
 import { initTracer } from 'jaeger-client';
 
-const serviceName = process.env.REACT_APP_JAEGER_SERVICE_NAME;
+const serviceName = 'react-app';
 const samplerConfig = {
   type: 'const',
   param: 1,
