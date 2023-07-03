@@ -20,6 +20,9 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
+  "resolutions": {
+    "os": "os-browserify"
+  },
   "eslintConfig": {
     "extends": [
       "react-app",
