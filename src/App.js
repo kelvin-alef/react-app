@@ -1,5 +1,6 @@
 import logo from './logo.svg';
 import './App.css';
+import tracer from './tracing';
 
 function App() {
   return (
@@ -20,6 +21,12 @@ function App() {
       </header>
     </div>
   );
+}
+
+componentDidMount() {
+  const rootSpan = tracer.startSpan('rootSpan');
+  tracer.inject(rootSpan, 'TEXT_MAP', {});
+  rootSpan.finish();
 }
 
 export default App;
