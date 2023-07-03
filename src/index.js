@@ -4,9 +4,6 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 
-const tracer = initTracer(config);
-opentracing.initGlobalTracer(tracer);
-
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
@@ -22,6 +19,7 @@ reportWebVitals();
 // jaeger
 import { initTracer } from 'jaeger-client';
 import opentracing from 'opentracing';
+import os from 'os-browserify/browser';
 
 const config = {
   serviceName: 'react-app',
@@ -35,3 +33,6 @@ const config = {
     agentPort: 6831, // Substitua pelo número da porta do serviço Jaeger
   },
 };
+
+const tracer = initTracer(config);
+opentracing.initGlobalTracer(tracer);
