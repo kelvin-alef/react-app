@@ -3,6 +3,11 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+
+if (!globalThis.os) {
+  globalThis.os = require('os-browserify/browser');
+}
+
 import { initTracer } from 'jaeger-client';
 
 const tracer = initTracer({ serviceName: 'react-app' });
