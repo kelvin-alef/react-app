@@ -1,5 +1,5 @@
 import { WebTracerProvider } from '@opentelemetry/sdk-trace-web';
-import { ConsoleSpanExporter, SimpleSpanProcessor } from '@opentelemetry/tracing';
+import { ConsoleSpanExporter, SimpleSpanProcessor } from '@opentelemetry/sdk-trace-base';
 import { ZipkinExporter } from '@opentelemetry/exporter-zipkin';
 
 const provider = new WebTracerProvider();
