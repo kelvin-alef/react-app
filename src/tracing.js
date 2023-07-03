@@ -1,6 +1,8 @@
-import { WebTracerProvider } from '@opentelemetry/sdk-trace-web';
-import { ConsoleSpanExporter, SimpleSpanProcessor } from '@opentelemetry/sdk-trace-base';
+import { registerInstrumentations } from '@opentelemetry/instrumentation';
 import { ZipkinExporter } from '@opentelemetry/exporter-zipkin';
+import { SimpleSpanProcessor } from '@opentelemetry/sdk-trace-base';
+import { ReactInstrumentation } from '@opentelemetry/plugin-react-load';
+import { WebTracerProvider } from '@opentelemetry/sdk-trace-web';
 
 const provider = new WebTracerProvider();
 
@@ -12,7 +14,12 @@ const exporter = new ZipkinExporter({
 
 // Adicionar exportadores e processadores de spans
 provider.addSpanProcessor(new SimpleSpanProcessor(exporter));
-provider.addSpanProcessor(new SimpleSpanProcessor(new ConsoleSpanExporter()));
+
+// Registrar a instrumentação do React
+registerInstrumentations({
+  instrumentations: [new ReactInstrumentation()],
+  tracerProvider: provider,
+});
 
 // Registrar o provedor globalmente
 provider.register();
