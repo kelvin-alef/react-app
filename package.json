@@ -11,7 +11,7 @@
     "react-dom": "^18.2.0",
     "react-scripts": "5.0.1",
     "web-vitals": "^2.1.4",
-    "jaeger-client": "^4.8.0",
+    "jaeger-client": "^3.19.0",
     "opentracing": "^0.16.0"
   },
   "scripts": {
