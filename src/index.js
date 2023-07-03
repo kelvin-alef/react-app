@@ -4,6 +4,26 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 
+// jaeger
+import { initTracer } from 'jaeger-client';
+import opentracing from 'opentracing';
+
+const config = {
+  serviceName: 'react-app',
+  sampler: {
+    type: 'const',
+    param: 1,
+  },
+  reporter: {
+    logSpans: true,
+    agentHost: 'localhost', // Substitua 'jaeger' pelo hostname ou endereço IP do serviço Jaeger
+    agentPort: 6831, // Substitua pelo número da porta do serviço Jaeger
+  },
+};
+
+const tracer = initTracer(config);
+opentracing.initGlobalTracer(tracer);
+
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
