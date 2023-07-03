@@ -15,24 +15,3 @@ root.render(
 // to log results (for example: reportWebVitals(console.log))
 // or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
 reportWebVitals();
-
-// jaeger
-import { initTracer } from 'jaeger-client';
-import opentracing from 'opentracing';
-import os from 'os-browserify/browser';
-
-const config = {
-  serviceName: 'react-app',
-  sampler: {
-    type: 'const',
-    param: 1,
-  },
-  reporter: {
-    logSpans: true,
-    agentHost: 'localhost', // Substitua 'jaeger' pelo hostname ou endereço IP do serviço Jaeger
-    agentPort: 6831, // Substitua pelo número da porta do serviço Jaeger
-  },
-};
-
-const tracer = initTracer(config);
-opentracing.initGlobalTracer(tracer);
