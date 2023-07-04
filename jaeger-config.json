@@ -3,7 +3,7 @@
   "diabled": false,
   "reporter": {
     "logSpans": true,
-    "localAgentHostPort": "localhost:6831"
+    "localAgentHostPort": "localhost:16686"
   },
   "sampler": {
     "type": "const",
