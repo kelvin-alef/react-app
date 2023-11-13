@@ -30,6 +30,9 @@ jobs:
           
       - name: Build the application
         run: npm run build
+          
+      - name: Step de teste
+        run: echo "IT Talent é muito massa oh!"
         
       - name: Setup Pages
         uses: actions/configure-pages@v3
