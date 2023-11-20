@@ -1,4 +1,4 @@
-name: pages
+name: dockerhub
 
 on:
   push:
@@ -7,7 +7,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  deploy-pages:
+  dockerhub:
     runs-on: ubuntu-latest
     
     steps:
@@ -36,5 +36,5 @@ jobs:
         uses: docker/build-push-action@v5
         with:
           push: true
-          tags: kelvinalef/react-app:latest
+          tags: kevinalef/react-app:latest
           
