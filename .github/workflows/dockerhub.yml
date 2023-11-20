@@ -1,0 +1,40 @@
+name: pages
+
+on:
+  push:
+    branches: [ "main" ]
+
+  workflow_dispatch:
+
+jobs:
+  deploy-pages:
+    runs-on: ubuntu-latest
+    
+    steps:
+        
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        
+      - name: Set up Node.js 16.x
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16.x
+          
+      - name: Install dependencies
+        run: npm install
+          
+      - name: Build the application
+        run: npm run build
+      
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      
+      - name: Build and push
+        uses: docker/build-push-action@v5
+        with:
+          push: true
+          tags: kelvinalef/react-app:latest
+          
